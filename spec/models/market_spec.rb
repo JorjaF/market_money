@@ -23,7 +23,7 @@ RSpec.describe Market, type: :model do
       vendor1 = Vendor.create!(name: "Test Vendor 1", description: "A big ass market", contact_name: "Fred Mertz", contact_phone: "303.555.5521", credit_accepted: "true", market: market1)
       vendor2 = Vendor.create!(name: "Another vendor", description: "We only sell pickles", contact_name: "Marc Kucumber", contact_phone: "303.555.9999", credit_accepted: "true", market: market1)
       
-      expect(Vendor.count).to eq(2)
+      expect(market1.vendor_count).to eq(2)
     end
   end
 end
