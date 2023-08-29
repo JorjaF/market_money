@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_30_155211) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_29_214529) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,8 +38,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_30_155211) do
     t.string "contact_name"
     t.string "contact_phone"
     t.boolean "credit_accepted"
+    t.bigint "market_id", null: false
+    t.index ["market_id"], name: "index_vendors_on_market_id"
   end
 
   add_foreign_key "market_vendors", "markets"
   add_foreign_key "market_vendors", "vendors"
+  add_foreign_key "vendors", "markets"
 end
