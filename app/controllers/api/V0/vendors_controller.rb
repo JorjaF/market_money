@@ -10,7 +10,7 @@ module Api
           vendor = Vendor.find(params[:id])
           render json: VendorSerializer.new(vendor)
         rescue ActiveRecord::RecordNotFound
-          render json: { error: "Couldn't find Vendor with 'id'=#{params[:id]}" }, status: 404
+          render json: ErrorSerializer.serialize("Couldn't find Vendor with 'id'=#{params[:id]}"), status: 404
         end
       end
     end
