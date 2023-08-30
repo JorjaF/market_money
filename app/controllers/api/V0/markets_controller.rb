@@ -10,7 +10,8 @@ module Api
           market = Market.find(params[:id])
           render json: MarketSerializer.new(market)
         rescue ActiveRecord::RecordNotFound
-          render json: { error: "Couldn't find Market with 'id'=#{params[:id]}" }, status: 404
+          error_message = "Couldn't find Market with 'id'=#{params[:id]}"
+          render json: ErrorSerializer.serialize(error_message), status: 404
         end
       end
     end
