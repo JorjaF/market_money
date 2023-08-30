@@ -31,7 +31,7 @@ RSpec.describe "Market API", type: :request do
   end
 
   describe "GET /api/v0/market/:id" do
-    it "when a valid market id is provided" do
+    it "when a valid market id is provided it returns the market information" do
       get "/api/v0/markets/#{@market1.id}"
 
       expect(response).to have_http_status(200)
