@@ -7,8 +7,14 @@ class Vendor < ApplicationRecord
   private
 
   def credit_accepted_presence
-    if credit_accepted.nil?
+    unless credit_accepted.is_a?(TrueClass) || credit_accepted.is_a?(FalseClass)
       errors.add(:credit_accepted, "must be true or false")
+    end
+  end
+
+  def credit_accepted_cannot_be_nil
+    if credit_accepted.nil?
+      errors.add(:credit_accepted, "can't be blank")
     end
   end
 end
