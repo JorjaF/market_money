@@ -76,7 +76,6 @@ RSpec.describe "Market API", type: :request do
       expect(vendors.count).to eq(3)
 
       vendor1_data = vendors.find { |v| v["id"].to_i == @vendor1.id }
-      
       expect(vendor1_data).to include(
         "id" => @vendor1.id.to_s,
         "attributes" => {
@@ -85,6 +84,7 @@ RSpec.describe "Market API", type: :request do
           "contact_name" => @vendor1.contact_name,
           "contact_phone" => @vendor1.contact_phone,
           "credit_accepted" => @vendor1.credit_accepted,
+          "market_id" => @vendor1.market_id
         })
 
       vendor2_data = vendors.find { |v| v["id"].to_i == @vendor2.id }
@@ -96,6 +96,7 @@ RSpec.describe "Market API", type: :request do
           "contact_name" => @vendor2.contact_name,
           "contact_phone" => @vendor2.contact_phone,
           "credit_accepted" => @vendor2.credit_accepted,
+          "market_id" => @vendor2.market_id
         }) 
         
       vendor3_data = vendors.find { |v| v["id"].to_i == @vendor3.id }
@@ -107,6 +108,7 @@ RSpec.describe "Market API", type: :request do
           "contact_name" => @vendor3.contact_name,
           "contact_phone" => @vendor3.contact_phone,
           "credit_accepted" => @vendor3.credit_accepted,
+          "market_id" => @vendor3.market_id
         })
     end
 

@@ -50,4 +50,56 @@ RSpec.describe "Vendor API", type: :request do
       )
     end
   end
+  
+  describe "POST /api/v0/vendors" do
+    context "with valid attributes" do
+      let(:valid_attributes) do
+        {
+          name: "Isis Books and Gifts",
+          description: "Metaphysical books, gifts, and supplies",
+          contact_name: "Nancy Harrison",
+          contact_phone: "303-761-8627",
+          credit_accepted: false,
+          market_id: @market1.id
+        }
+      end
+      
+      it "creates a new vendor" do
+        post "/api/v0/vendors", params: { vendor: valid_attributes }
+
+        expect(response).to have_http_status(201)
+        
+        json_response = JSON.parse(response.body)["data"]["attributes"]
+
+        expect(json_response["name"]).to eq(valid_attributes[:name])
+        expect(json_response["description"]).to eq(valid_attributes[:description])
+        expect(json_response["contact_name"]).to eq(valid_attributes[:contact_name])
+        expect(json_response["contact_phone"]).to eq(valid_attributes[:contact_phone])
+        expect(json_response["credit_accepted"]).to eq(valid_attributes[:credit_accepted])
+      end
+    end
+
+    context "with invalid attributes" do
+      let(:invalid_attributes) do
+        {
+          name: "Spirit Ways",
+          description: "Metaphysical books, gifts, and supplies",
+          contact_name: "Amy Smith",
+          contact_phone: "303-761-8627",
+          market_id: @market1.id
+        }
+      end
+
+      it "returns a 400 status with descriptive error message" do
+        post "/api/v0/vendors", params: { vendor: invalid_attributes }
+
+        expect(response).to have_http_status(400)
+        json_response = JSON.parse(response.body)
+
+        expect(json_response).to include(
+          "error"=> {"credit_accepted"=>["must be true or false"]}
+        )
+      end
+    end
+  end
 end
