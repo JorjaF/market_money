@@ -52,7 +52,7 @@ RSpec.describe "Vendor API", type: :request do
   end
   
   describe "POST /api/v0/vendors" do
-    context "with valid attributes" do
+    context "add a vendor with valid attributes" do
       let(:valid_attributes) do
         {
           name: "Isis Books and Gifts",
@@ -79,7 +79,7 @@ RSpec.describe "Vendor API", type: :request do
       end
     end
 
-    context "with invalid attributes" do
+    context "trying to create a vendor with invalid attributes" do
       let(:invalid_attributes) do
         {
           name: "Spirit Ways",
@@ -99,6 +99,28 @@ RSpec.describe "Vendor API", type: :request do
         expect(json_response).to include(
           "error"=> {"credit_accepted"=>["must be true or false"]}
         )
+      end
+    end
+  end
+
+  describe "DELETE /api/v0/vendors/:id" do
+    context "when a valid vendor id is provided" do
+      let!(:vendor) { Vendor.create!(name: "Isis Books and Gifts", description: "Metaphysical books, gifts, and supplies", contact_name: "Nancy Harrison", contact_phone: "303-761-8627", credit_accepted: false, market: @market1) }
+
+      it "can delete a vendor and its associations" do
+        expect{
+          delete "/api/v0/vendors/#{vendor.id}"
+      }.to change(Vendor, :count).by(-1)
+        expect(response).to have_http_status(204)
+        expect(response.body).to be_empty
+      end
+    end
+
+    context "when an invalid vendor id is provided" do
+      it "returns a 404 status" do
+        delete "/api/v0/vendors/invalid_id"
+        
+        expect(response).to have_http_status(404)
       end
     end
   end

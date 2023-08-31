@@ -23,6 +23,17 @@ module Api
         end
       end
 
+      def destroy
+        begin
+          vendor = Vendor.find(params[:id])
+          vendor.destroy
+          head :no_content
+        rescue ActiveRecord::RecordNotFound
+          render json: ErrorSerializer.serialize("Couldn't find Vendor with 'id'=#{params[:id]}"), status: 404
+        end
+
+      end
+
       private
 
       def vendor_params
