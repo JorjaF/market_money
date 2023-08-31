@@ -59,7 +59,7 @@ RSpec.describe "Vendor API", type: :request do
           description: "Metaphysical books, gifts, and supplies",
           contact_name: "Nancy Harrison",
           contact_phone: "303-761-8627",
-          credit_accepted: true,
+          credit_accepted: false,
           market_id: @market1.id
         }
       end
@@ -96,9 +96,9 @@ RSpec.describe "Vendor API", type: :request do
         expect(response).to have_http_status(400)
         json_response = JSON.parse(response.body)
 
-        expect(json_response).to include{
-          "error"=> "credit_accepted can't be blank"
-      }
+        expect(json_response).to include(
+          "error"=> {"credit_accepted"=>["must be true or false"]}
+        )
       end
     end
   end
